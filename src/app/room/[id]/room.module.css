@@ -1,0 +1,60 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  padding: 2.5rem 2rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111111;
+  margin-bottom: 2rem;
+}
+
+.codeBox {
+  border: 1.5px solid #d1d5db;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.codeLabel {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-bottom: 0.5rem;
+}
+
+.code {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: #111111;
+}
+
+.members {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.memberLabel {
+  font-size: 0.85rem;
+  color: #9ca3af;
+  margin-bottom: 0.25rem;
+}
+
+.member {
+  font-size: 0.95rem;
+  color: #111111;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
