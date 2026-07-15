@@ -13,7 +13,7 @@ export default function RoomPage({ params }) {
   const [currentUser, setCurrentUser] = useState(null); //현재 로그인한 유저
   const [loading, setLoading] = useState(false);
 
-  const router = useRouter(); // 페이지 이동할 때 씀
+  const router = useRouter();
 
   useEffect(() => {
     //컴포넌트가 처음 렌더링될 때 실행
@@ -29,7 +29,6 @@ export default function RoomPage({ params }) {
     } = await supabase.auth.getUser();
 
     if (!user) {
-      //로그인 안됐으면 로그인 페이지로
       router.push("/auth/login");
       return;
     }
@@ -40,7 +39,7 @@ export default function RoomPage({ params }) {
     const { data: roomData } = await supabase
       .from("rooms")
       .select("*")
-      .eq("id", id) //id가 params.id인 방
+      .eq("id", id)
       .single();
 
     //멤버 목록 가져오기 (유저 닉네임도 같이)
@@ -54,6 +53,19 @@ export default function RoomPage({ params }) {
     setLoading(false);
   };
 
+  //방 나가기
+  const handleLeave = async () => {
+    const supabase = createClient();
+
+    await supabase
+      .from("room_members")
+      .delete()
+      .eq("room_id", id)
+      .eq("user_id", currentUser.id);
+
+    router.push("/"); //홈으로 이동
+  };
+
   if (loading) return <p>로딩 중...</p>;
   if (!room) return <p>방을 찾을 수 없어요.</p>;
 
@@ -61,6 +73,10 @@ export default function RoomPage({ params }) {
     <main className={styles.container}>
       <div className={styles.card}>
         <h1 className={styles.title}>{room.name}</h1>
+        {/* 방 나가기 */}
+        <button onClick={handleLeave} className={styles.leaveButton}>
+          방 나가기
+        </button>
 
         {/* 방 코드 */}
         <div className={styles.codeBox}>

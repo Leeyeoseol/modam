@@ -58,3 +58,16 @@
   padding: 0.5rem 0;
   border-bottom: 1px solid #f3f4f6;
 }
+
+.leaveButton {
+  margin-top: 2rem;
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+.leaveButton:hover {
+  color: #ef4444;
+}
