@@ -1,40 +1,49 @@
-"use client";
+"use client"; //브라우저에서 실행
 
-import { useState, useEffect, use } from "react"; //use 추가
-import { createClient } from "@/lib/supabase";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, use } from "react"; //상태관리, 데이터 불러오기, params 풀기
+import { createClient } from "@/lib/supabase"; //DB 기능 가져오기
+import { useRouter } from "next/navigation"; //다른 페이지 이동
+import Calendar from "@/components/calendar/Calendar"; //달력 컴포넌트
 import styles from "./room.module.css";
 
 export default function RoomPage({ params }) {
-  const { id } = use(params); //params를 use()로 풀기
-  const [room, setRoom] = useState(null);
-  const [members, setMembers] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { id } = use(params); //params는 Promise라 use()로 풀어야 함
+  const [room, setRoom] = useState(null); //방 정보
+  const [members, setMembers] = useState([]); //멤버 목록
+  const [currentUser, setCurrentUser] = useState(null); //현재 로그인한 유저
+  const [loading, setLoading] = useState(false);
 
-  const router = useRouter();
+  const router = useRouter(); // 페이지 이동할 때 씀
 
   useEffect(() => {
+    //컴포넌트가 처음 렌더링될 때 실행
     fetchRoom();
   }, []);
 
   const fetchRoom = async () => {
-    const supabase = createClient();
+    const supabase = createClient(); //supabase 연결 클라이언트 초기화
 
+    //현재 로그인한 유저 가져오기
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
     if (!user) {
+      //로그인 안됐으면 로그인 페이지로
       router.push("/auth/login");
       return;
     }
 
+    setCurrentUser(user); //유저 정보 저장
+
+    //방 정보 가져오기
     const { data: roomData } = await supabase
       .from("rooms")
       .select("*")
-      .eq("id", id) //params.id 대신 id 사용
+      .eq("id", id) //id가 params.id인 방
       .single();
 
+    //멤버 목록 가져오기 (유저 닉네임도 같이)
     const { data: membersData } = await supabase
       .from("room_members")
       .select("user_id, users(nickname)")
@@ -52,10 +61,14 @@ export default function RoomPage({ params }) {
     <main className={styles.container}>
       <div className={styles.card}>
         <h1 className={styles.title}>{room.name}</h1>
+
+        {/* 방 코드 */}
         <div className={styles.codeBox}>
           <p className={styles.codeLabel}>방 코드</p>
           <p className={styles.code}>{room.code}</p>
         </div>
+
+        {/* 멤버 목록 */}
         <div className={styles.members}>
           <p className={styles.memberLabel}>멤버 {members.length}명</p>
           {members.map((m) => (
@@ -64,6 +77,9 @@ export default function RoomPage({ params }) {
             </p>
           ))}
         </div>
+
+        {/* 달력 - currentUser 있을 때만 렌더링 */}
+        {currentUser && <Calendar roomId={id} userId={currentUser.id} />}
       </div>
     </main>
   );
