@@ -1,0 +1,172 @@
+.container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 2rem;
+}
+.card {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111111;
+}
+
+.addButton {
+  font-size: 0.9rem;
+  color: #111111;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1.5px solid #111111;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.5rem;
+}
+
+.addButton:hover {
+  background-color: #111111;
+  color: #ffffff;
+}
+
+.empty {
+  color: #9ca3af;
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+}
+
+.settlementCard {
+  border: 1.5px solid #f3f4f6;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.settlementHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.settlementTitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111111;
+}
+
+.settlementAmount {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111111;
+}
+
+.settlementDate {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  margin-bottom: 0.75rem;
+}
+
+.memberList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.memberRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.memberName {
+  flex: 1;
+  font-size: 0.9rem;
+  color: #111111;
+}
+
+.memberAmount {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.paidBtn {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border: 1.5px solid #d1d5db;
+  border-radius: 2rem;
+  background: none;
+  cursor: pointer;
+  color: #9ca3af;
+  transition: all 0.2s;
+}
+
+.paid {
+  border-color: #111111;
+  color: #111111;
+  font-weight: 600;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #111111;
+  padding: 0.25rem;
+}
+
+.backButton:hover {
+  color: #9ca3af;
+}
+
+.section {
+  margin-top: 0.75rem;
+}
+
+.sectionLabel {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+}
+
+.highlight {
+  font-weight: 700;
+  color: #111111;
+}
+
+.myRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.status {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 2rem;
+}
+
+.unpaid {
+  color: #9ca3af;
+  border: 1.5px solid #d1d5db;
+}
+
+.requested {
+  border-color: #111111;
+  color: #111111;
+  font-weight: 600;
+}
