@@ -1,40 +1,60 @@
 .container {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #ffffff;
+  padding: 2rem;
 }
 
-.card {
-  width: 100%;
-  max-width: 400px;
-  padding: 2.5rem 2rem;
+.back {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #111111;
+  margin-bottom: 1.5rem;
+  padding: 0;
+}
+
+.back:hover {
+  color: #9ca3af;
+}
+
+.layout {
+  display: flex;
+  gap: 4rem;
+  align-items: flex-start;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 240px;
+}
+
+.right {
+  flex: 1;
+  max-width: 720px;
 }
 
 .title {
   font-size: 1.5rem;
   font-weight: 700;
   color: #111111;
-  margin-bottom: 2rem;
 }
 
 .codeBox {
-  border: 1.5px solid #d1d5db;
-  border-radius: 0.5rem;
-  padding: 1rem;
-  margin-bottom: 2rem;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
 }
 
 .codeLabel {
   font-size: 0.8rem;
   color: #9ca3af;
-  margin-bottom: 0.5rem;
 }
 
 .code {
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   letter-spacing: 0.3em;
   color: #111111;
@@ -49,25 +69,40 @@
 .memberLabel {
   font-size: 0.85rem;
   color: #9ca3af;
-  margin-bottom: 0.25rem;
 }
 
 .member {
   font-size: 0.95rem;
   color: #111111;
-  padding: 0.5rem 0;
+  padding: 0.4rem 0;
   border-bottom: 1px solid #f3f4f6;
 }
 
+.settlementLink {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111111;
+  text-decoration: none;
+}
+
+.settlementLink:hover {
+  opacity: 0.6;
+}
+
 .leaveButton {
-  margin-top: 2rem;
   background: none;
   border: none;
   font-size: 0.85rem;
   color: #9ca3af;
   cursor: pointer;
+  padding: 0;
+  text-align: left;
 }
 
 .leaveButton:hover {
   color: #ef4444;
+}
+
+.me {
+  font-weight: 700;
 }

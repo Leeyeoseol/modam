@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase"; //DB 기능 가져오기
 import { useRouter } from "next/navigation"; //다른 페이지 이동
 import Calendar from "@/components/calendar/Calendar"; //달력 컴포넌트
 import styles from "./room.module.css";
+import Link from "next/link";
 
 export default function RoomPage({ params }) {
   const { id } = use(params); //params는 Promise라 use()로 풀어야 함
@@ -71,31 +72,56 @@ export default function RoomPage({ params }) {
 
   return (
     <main className={styles.container}>
-      <div className={styles.card}>
-        <h1 className={styles.title}>{room.name}</h1>
-        {/* 방 나가기 */}
-        <button onClick={handleLeave} className={styles.leaveButton}>
-          방 나가기
-        </button>
+      {/* 뒤로가기 */}
+      <button onClick={() => router.push("/")} className={styles.back}>
+        ←
+      </button>
 
-        {/* 방 코드 */}
-        <div className={styles.codeBox}>
-          <p className={styles.codeLabel}>방 코드</p>
-          <p className={styles.code}>{room.code}</p>
+      <div className={styles.layout}>
+        {/* 왼쪽 */}
+        <div className={styles.left}>
+          <h1 className={styles.title}>{room.name}</h1>
+
+          {/* 방 코드 */}
+          <div className={styles.codeBox}>
+            <p className={styles.codeLabel}>방 코드</p>
+            <p className={styles.code}>{room.code}</p>
+          </div>
+
+          {/* 멤버 목록 */}
+          <div className={styles.members}>
+            <p className={styles.memberLabel}>멤버 {members.length}명</p>
+            {members.map((m) => (
+              <p
+                key={m.user_id}
+                className={`${styles.member} ${m.user_id === currentUser?.id ? styles.me : ""}`}
+              >
+                {m.users?.nickname || "익명"}
+                {m.user_id === currentUser?.id && " (나)"}
+              </p>
+            ))}
+          </div>
+
+          {/* 정산 */}
+          <Link
+            href={`/room/${id}/settlement`}
+            className={styles.settlementLink}
+          >
+            정산 보기 →
+          </Link>
+
+          {/* 방 나가기 */}
+          <button onClick={handleLeave} className={styles.leaveButton}>
+            방 나가기
+          </button>
         </div>
 
-        {/* 멤버 목록 */}
-        <div className={styles.members}>
-          <p className={styles.memberLabel}>멤버 {members.length}명</p>
-          {members.map((m) => (
-            <p key={m.user_id} className={styles.member}>
-              {m.users?.nickname || "익명"}
-            </p>
-          ))}
+        {/* 오른쪽 - 달력 */}
+        <div className={styles.right}>
+          {currentUser && (
+            <Calendar roomId={id} userId={currentUser.id} members={members} />
+          )}
         </div>
-
-        {/* 달력 - currentUser 있을 때만 렌더링 */}
-        {currentUser && <Calendar roomId={id} userId={currentUser.id} />}
       </div>
     </main>
   );
