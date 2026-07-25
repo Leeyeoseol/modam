@@ -4,26 +4,26 @@ import { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase";
 import styles from "./Calendar.module.css";
 
-//멤버별 색상 팔레트
 const COLORS = [
-  "#a5f3fc", //하늘
-  "#bbf7d0", //민트
-  "#fde68a", //노랑
-  "#fca5a5", //빨강
-  "#c4b5fd", //보라
-  "#fdba74", //주황
-  "#86efac", //초록
-  "#f9a8d4", //분홍
+  "#a5f3fc",
+  "#bbf7d0",
+  "#fde68a",
+  "#fca5a5",
+  "#c4b5fd",
+  "#fdba74",
+  "#86efac",
+  "#f9a8d4",
 ];
 
 export default function Calendar({ roomId, userId, members }) {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [myDates, setMyDates] = useState([]);
-  const [allDates, setAllDates] = useState([]); //전체 날짜 데이터 (유저별)
+  const [allDates, setAllDates] = useState([]);
+  const [settlementByDate, setSettlementByDate] = useState({}); //날짜별 정산 금액
 
+  //멤버별 색상 매핑
   const getMemberColor = (uid) => {
     const index = members.findIndex((m) => m.user_id === uid);
-    console.log("uid:", uid, "index:", index, "members:", members);
     return COLORS[index % COLORS.length];
   };
 
@@ -39,6 +39,7 @@ export default function Calendar({ roomId, userId, members }) {
     const firstDay = new Date(year, month, 1).toISOString().split("T")[0];
     const lastDay = new Date(year, month + 1, 0).toISOString().split("T")[0];
 
+    //가능 날짜 가져오기
     const { data } = await supabase
       .from("available_dates")
       .select("user_id, date")
@@ -46,11 +47,28 @@ export default function Calendar({ roomId, userId, members }) {
       .gte("date", firstDay)
       .lte("date", lastDay);
 
-    if (!data) return;
+    if (data) {
+      const my = data.filter((d) => d.user_id === userId).map((d) => d.date);
+      setMyDates(my);
+      setAllDates(data);
+    }
 
-    const my = data.filter((d) => d.user_id === userId).map((d) => d.date);
-    setMyDates(my);
-    setAllDates(data);
+    //날짜별 정산 금액 가져오기
+    const { data: settlements } = await supabase
+      .from("settlements")
+      .select("date, total_amount")
+      .eq("room_id", roomId)
+      .gte("date", firstDay)
+      .lte("date", lastDay);
+
+    if (settlements) {
+      //같은 날짜 정산 합산
+      const byDate = {};
+      settlements.forEach((s) => {
+        byDate[s.date] = (byDate[s.date] || 0) + s.total_amount;
+      });
+      setSettlementByDate(byDate);
+    }
   };
 
   const toggleDate = async (dateStr) => {
@@ -64,7 +82,6 @@ export default function Calendar({ roomId, userId, members }) {
         .eq("room_id", roomId)
         .eq("user_id", userId)
         .eq("date", dateStr);
-
       setMyDates(myDates.filter((d) => d !== dateStr));
     } else {
       await supabase.from("available_dates").insert({
@@ -72,10 +89,8 @@ export default function Calendar({ roomId, userId, members }) {
         user_id: userId,
         date: dateStr,
       });
-
       setMyDates([...myDates, dateStr]);
     }
-
     fetchDates();
   };
 
@@ -84,7 +99,6 @@ export default function Calendar({ roomId, userId, members }) {
     const month = currentDate.getMonth();
     const firstDay = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
-
     const days = [];
     for (let i = 0; i < firstDay; i++) days.push(null);
     for (let i = 1; i <= daysInMonth; i++) {
@@ -97,25 +111,20 @@ export default function Calendar({ roomId, userId, members }) {
 
   const getRangeStyle = (dateStr) => {
     if (!dateStr || !myDates.includes(dateStr)) return "";
-
     const prev = new Date(dateStr);
     prev.setDate(prev.getDate() - 1);
     const prevStr = prev.toISOString().split("T")[0];
-
     const next = new Date(dateStr);
     next.setDate(next.getDate() + 1);
     const nextStr = next.toISOString().split("T")[0];
-
     const hasPrev = myDates.includes(prevStr);
     const hasNext = myDates.includes(nextStr);
-
     if (hasPrev && hasNext) return styles.rangeMiddle;
     if (hasPrev) return styles.rangeEnd;
     if (hasNext) return styles.rangeStart;
     return "";
   };
 
-  //날짜별 선택한 멤버 색상 가져오기
   const getDateColors = (dateStr) => {
     return allDates
       .filter((d) => d.date === dateStr)
@@ -175,6 +184,7 @@ export default function Calendar({ roomId, userId, members }) {
       <div className={styles.grid}>
         {days.map((dateStr, i) => {
           const colors = dateStr ? getDateColors(dateStr) : [];
+          const amount = dateStr ? settlementByDate[dateStr] : null;
           return (
             <div
               key={i}
@@ -186,7 +196,7 @@ export default function Calendar({ roomId, userId, members }) {
             >
               {dateStr ? parseInt(dateStr.split("-")[2]) : ""}
 
-              {/* 멤버 색상 점 표시 */}
+              {/* 멤버 색상 점 */}
               {colors.length > 0 && (
                 <div className={styles.dots}>
                   {colors.map((color, idx) => (
@@ -197,6 +207,15 @@ export default function Calendar({ roomId, userId, members }) {
                     />
                   ))}
                 </div>
+              )}
+
+              {/* 정산 금액 */}
+              {amount && (
+                <span className={styles.amount}>
+                  {amount >= 10000
+                    ? `${Math.floor(amount / 10000)}만`
+                    : `${amount.toLocaleString()}`}
+                </span>
               )}
             </div>
           );
