@@ -115,6 +115,12 @@ export default function NewSettlementPage({ params }) {
   return (
     <main className={styles.container}>
       <div className={styles.card}>
+        <button
+          onClick={() => router.push(`/room/${id}/settlement`)}
+          className={styles.back}
+        >
+          ←
+        </button>
         <h1 className={styles.title}>정산 추가</h1>
 
         <div className={styles.form}>

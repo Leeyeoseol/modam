@@ -1,10 +1,12 @@
 .container {
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: var(--bg);
   padding: 2rem;
 }
+
 .card {
-  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 .header {
@@ -12,106 +14,6 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
-}
-
-.title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #111111;
-}
-
-.addButton {
-  font-size: 0.9rem;
-  color: #111111;
-  text-decoration: none;
-  font-weight: 600;
-  border: 1.5px solid #111111;
-  padding: 0.4rem 0.75rem;
-  border-radius: 0.5rem;
-}
-
-.addButton:hover {
-  background-color: #111111;
-  color: #ffffff;
-}
-
-.empty {
-  color: #9ca3af;
-  text-align: center;
-  margin-top: 3rem;
-  font-size: 0.9rem;
-}
-
-.settlementCard {
-  border: 1.5px solid #f3f4f6;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-
-.settlementHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.25rem;
-}
-
-.settlementTitle {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #111111;
-}
-
-.settlementAmount {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #111111;
-}
-
-.settlementDate {
-  font-size: 0.8rem;
-  color: #9ca3af;
-  margin-bottom: 0.75rem;
-}
-
-.memberList {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.memberRow {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.memberName {
-  flex: 1;
-  font-size: 0.9rem;
-  color: #111111;
-}
-
-.memberAmount {
-  font-size: 0.9rem;
-  color: #6b7280;
-}
-
-.paidBtn {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.6rem;
-  border: 1.5px solid #d1d5db;
-  border-radius: 2rem;
-  background: none;
-  cursor: pointer;
-  color: #9ca3af;
-  transition: all 0.2s;
-}
-
-.paid {
-  border-color: #111111;
-  color: #111111;
-  font-weight: 600;
 }
 
 .headerLeft {
@@ -125,12 +27,75 @@
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  color: #111111;
-  padding: 0.25rem;
+  color: var(--text);
+  padding: 0;
 }
 
 .backButton:hover {
-  color: #9ca3af;
+  color: var(--text-sub);
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.addButton {
+  padding: 0.5rem 1rem;
+  background-color: var(--primary);
+  border-radius: 0.75rem;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  transition: all 0.2s;
+}
+
+.addButton:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.empty {
+  color: var(--text-sub);
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+}
+
+.settlementCard {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 1.2rem;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 12px rgba(133, 208, 255, 0.15);
+}
+
+.settlementHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.settlementTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.settlementAmount {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.settlementDate {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+  margin-bottom: 1rem;
 }
 
 .section {
@@ -138,35 +103,97 @@
 }
 
 .sectionLabel {
-  font-size: 0.85rem;
-  color: #6b7280;
-  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+  margin-bottom: 0.75rem;
 }
 
 .highlight {
-  font-weight: 700;
-  color: #111111;
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.memberList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.memberRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--bg);
+  border-radius: 0.75rem;
+}
+
+.memberName {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.memberAmount {
+  font-size: 0.9rem;
+  color: var(--text-sub);
 }
 
 .myRow {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0.75rem;
+  background: var(--bg);
+  border-radius: 0.75rem;
 }
 
 .status {
-  font-size: 0.75rem;
-  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.75rem;
   border-radius: 2rem;
 }
 
 .unpaid {
-  color: #9ca3af;
-  border: 1.5px solid #d1d5db;
+  color: var(--text-sub);
+  border: 1.5px solid var(--border);
+}
+
+.paid {
+  border-color: var(--primary);
+  color: var(--text);
+  font-weight: 700;
+  background-color: var(--primary);
+}
+
+.paidBtn {
+  font-size: 0.85rem;
+  padding: 0.35rem 0.85rem;
+  border: 1.5px solid var(--border);
+  border-radius: 2rem;
+  background: none;
+  cursor: pointer;
+  color: var(--text-sub);
+  transition: all 0.2s;
+}
+
+.paidBtn:hover {
+  border-color: var(--primary);
+  color: var(--text);
 }
 
 .requested {
-  border-color: #111111;
-  color: #111111;
-  font-weight: 600;
+  border-color: var(--primary);
+  background-color: var(--primary);
+  color: var(--text);
+  font-weight: 700;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 480px) {
+  .container {
+    padding: 1.5rem 1rem;
+  }
 }

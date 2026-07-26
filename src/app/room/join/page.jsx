@@ -78,6 +78,9 @@ export default function JoinRoomPage() {
   return (
     <main className={styles.container}>
       <div className={styles.card}>
+        <button onClick={() => router.push("/")} className={styles.back}>
+          ←
+        </button>
         <h1 className={styles.title}>방 참여</h1>
         <div className={styles.form}>
           <input
