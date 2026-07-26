@@ -1,7 +1,8 @@
 .container {
   margin-top: 2rem;
+  width: 100%;
+  overflow: hidden;
 }
-
 .header {
   display: flex;
   align-items: center;
@@ -50,7 +51,6 @@
 .day {
   aspect-ratio: unset; /* ← 제거 */
   height: 52px; /* ← 고정 높이 */
-  aspect-ratio: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,23 +77,28 @@
 
 /* 내가 선택한 날짜 */
 .selected {
-  background-color: #f2f2f2 !important;
+  background-color: #e8e8e8;
 }
 
 .count {
   font-size: 0.6rem;
   color: #6b7280;
 }
+
 /* 연속 날짜 스타일 */
 .rangeStart {
   border-radius: 0.4rem 0 0 0.4rem;
+  background-color: #e8e8e8;
 }
+
 .rangeMiddle {
   border-radius: 0;
+  background-color: #e8e8e8;
 }
 
 .rangeEnd {
   border-radius: 0 0.4rem 0.4rem 0;
+  background-color: #e8e8e8;
 }
 
 .legend {
@@ -137,4 +142,20 @@
   font-size: 0.8rem;
   color: #6b7280;
   margin-top: 1px;
+}
+
+@media (max-width: 768px) {
+  .day {
+    height: 40px;
+    font-size: 0.85rem;
+  }
+
+  .dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .amount {
+    font-size: 0.65rem;
+  }
 }
