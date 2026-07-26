@@ -3,89 +3,125 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #ffffff;
+  background-color: var(--bg);
 }
 
 .card {
+  background: white;
+  padding: 3rem 2.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 20px rgba(133, 208, 255, 0.2);
   width: 100%;
-  max-width: 360px;
-  padding: 2.5rem 2rem;
+  max-width: 400px;
+  border: 2px solid var(--border);
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 900;
   text-align: center;
-  color: #111111;
-  margin-bottom: 2rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
   letter-spacing: 0.1em;
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--text-sub);
+  margin-bottom: 2rem;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 .input {
   border: none;
-  border-bottom: 1.5px solid #d1d5db;
-  padding: 0.5rem 0;
+  border-bottom: 2px solid var(--border);
+  padding: 0.6rem 0;
   outline: none;
   font-size: 0.95rem;
   background: transparent;
   transition: border-color 0.2s;
-  color: #111111;
+  color: var(--text);
 }
 
 .input:focus {
-  border-bottom-color: #111111;
+  border-bottom-color: var(--primary);
 }
 
 .input::placeholder {
   color: #c4c4c4;
-  font-size: 0.9rem;
 }
 
 .error {
-  color: #ef4444;
+  color: #ff6b6b;
   font-size: 0.8rem;
 }
 
 .button {
   margin-top: 0.5rem;
-  background-color: #111111;
-  color: white;
+  background-color: var(--primary);
+  color: var(--text);
   border: none;
-  padding: 0.75rem;
+  padding: 0.85rem;
   font-size: 0.95rem;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: opacity 0.2s;
+  border-radius: 0.75rem;
+  transition: all 0.2s;
 }
 
 .button:hover {
-  opacity: 0.75;
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
 }
 
 .button:disabled {
-  opacity: 0.4;
+  opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
 .footer {
   text-align: center;
-  font-size: 0.8rem;
-  color: #9ca3af;
+  font-size: 0.85rem;
+  color: var(--text-sub);
   margin-top: 1.2rem;
 }
 
 .link {
-  color: #111111;
+  color: var(--text);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .link:hover {
   text-decoration: underline;
+}
+
+.back {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: var(--text);
+  padding: 0;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.back:hover {
+  color: var(--text-sub);
+}
+
+/* 모바일 반응형 */
+@media (max-width: 480px) {
+  .card {
+    margin: 1rem;
+    padding: 2rem 1.5rem;
+  }
 }

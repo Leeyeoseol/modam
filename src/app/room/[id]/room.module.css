@@ -1,6 +1,6 @@
 .container {
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: var(--bg);
   padding: 2rem;
 }
 
@@ -9,18 +9,18 @@
   border: none;
   font-size: 1.2rem;
   cursor: pointer;
-  color: #111111;
+  color: var(--text);
   margin-bottom: 1.5rem;
   padding: 0;
 }
 
 .back:hover {
-  color: #9ca3af;
+  color: var(--text-sub);
 }
 
 .layout {
   display: flex;
-  gap: 4rem;
+  gap: 3rem;
   align-items: flex-start;
 }
 
@@ -28,81 +28,118 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  min-width: 240px;
+  min-width: 220px;
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 2px solid var(--border);
+  box-shadow: 0 4px 16px rgba(133, 208, 255, 0.15);
 }
 
 .right {
   flex: 1;
-  max-width: 720px;
+  max-width: 480px;
+  background: white;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  border: 2px solid var(--border);
+  box-shadow: 0 4px 16px rgba(133, 208, 255, 0.15);
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #111111;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text);
 }
 
 .codeBox {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
+  background: var(--bg);
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
 }
 
 .codeLabel {
-  font-size: 0.8rem;
-  color: #9ca3af;
+  font-size: 0.75rem;
+  color: var(--text-sub);
 }
 
 .code {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.3rem;
+  font-weight: 800;
   letter-spacing: 0.3em;
-  color: #111111;
+  color: var(--text);
 }
 
 .members {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
 .memberLabel {
-  font-size: 0.85rem;
-  color: #9ca3af;
+  font-size: 0.75rem;
+  color: var(--text-sub);
+  margin-bottom: 0.25rem;
 }
 
 .member {
-  font-size: 0.95rem;
-  color: #111111;
-  padding: 0.4rem 0;
-  border-bottom: 1px solid #f3f4f6;
+  font-size: 0.9rem;
+  color: var(--text);
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.me {
+  font-weight: 700;
 }
 
 .settlementLink {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #111111;
+  display: block;
+  text-align: center;
+  padding: 0.75rem;
+  background-color: var(--primary);
+  border-radius: 0.75rem;
   text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  transition: all 0.2s;
 }
 
 .settlementLink:hover {
-  opacity: 0.6;
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
 }
 
 .leaveButton {
   background: none;
   border: none;
-  font-size: 0.85rem;
-  color: #9ca3af;
+  font-size: 0.8rem;
+  color: var(--text-sub);
   cursor: pointer;
   padding: 0;
-  text-align: left;
+  text-align: center;
 }
 
 .leaveButton:hover {
-  color: #ef4444;
+  color: var(--danger);
 }
 
-.me {
-  font-weight: 700;
+/* 모바일 반응형 */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+
+  .left {
+    width: 100%;
+  }
+
+  .right {
+    width: 100%;
+    max-width: 100%;
+  }
 }

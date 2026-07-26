@@ -1,26 +1,59 @@
-"use client"; //브라우저에서 실행
+"use client";
 
-import { useState, useEffect } from "react"; //상태관리, 데이터 불러오기
-import { createClient } from "@/lib/supabase"; //DB 기능 가져오기
-import { useRouter } from "next/navigation"; //다른 페이지 이동
-import Link from "next/link"; //클릭해서 이동하는 링크 태그
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import styles from "./page.module.css";
 
+//테마 프리셋
+const THEMES = [
+  { name: "블루", primary: "#85D0FF", bg: "#EBF6FD", border: "#B8E4FF" },
+  { name: "보라", primary: "#C4B5FD", bg: "#F3F0FF", border: "#DDD6FE" },
+  { name: "핑크", primary: "#FFB5C8", bg: "#FFF0F4", border: "#FFD6E3" },
+  { name: "민트", primary: "#86EFAC", bg: "#F0FDF4", border: "#BBF7D0" },
+  { name: "노랑", primary: "#FDE68A", bg: "#FFFDE7", border: "#FEF08A" },
+];
+
 export default function Home() {
-  const [rooms, setRooms] = useState([]); //내가 참여한 방 목록
+  const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentTheme, setCurrentTheme] = useState(0);
 
   const router = useRouter();
 
   useEffect(() => {
-    //컴포넌트가 처음 렌더링될 때 실행
+    //저장된 테마 불러오기
+    const saved = localStorage.getItem("modam-theme");
+    if (saved) {
+      const index = THEMES.findIndex((t) => t.name === saved);
+      if (index !== -1) {
+        setCurrentTheme(index);
+        applyTheme(THEMES[index]);
+      }
+    } else {
+      applyTheme(THEMES[0]);
+    }
     fetchRooms();
   }, []);
+
+  //테마 적용
+  const applyTheme = (theme) => {
+    document.documentElement.style.setProperty("--primary", theme.primary);
+    document.documentElement.style.setProperty("--bg", theme.bg);
+    document.documentElement.style.setProperty("--border", theme.border);
+    document.documentElement.style.setProperty("--primary-dark", theme.primary);
+  };
+
+  const handleTheme = (index) => {
+    setCurrentTheme(index);
+    applyTheme(THEMES[index]);
+    localStorage.setItem("modam-theme", THEMES[index].name);
+  };
 
   const fetchRooms = async () => {
     const supabase = createClient();
 
-    //현재 로그인한 유저 가져오기
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -30,10 +63,9 @@ export default function Home() {
       return;
     }
 
-    //내가 참여한 방 목록 가져오기
     const { data } = await supabase
       .from("room_members")
-      .select("room_id, rooms(id, name, code)") //rooms 테이블 join
+      .select("room_id, rooms(id, name, code)")
       .eq("user_id", user.id);
 
     setRooms(data || []);
@@ -55,6 +87,19 @@ export default function Home() {
         <button onClick={handleLogout} className={styles.logout}>
           로그아웃
         </button>
+      </div>
+
+      {/* 테마 선택 */}
+      <div className={styles.themeRow}>
+        {THEMES.map((t, i) => (
+          <button
+            key={t.name}
+            onClick={() => handleTheme(i)}
+            className={`${styles.themeBtn} ${currentTheme === i ? styles.themeSelected : ""}`}
+            style={{ backgroundColor: t.primary }}
+            title={t.name}
+          />
+        ))}
       </div>
 
       {/* 방 목록 */}

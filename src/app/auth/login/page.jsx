@@ -43,6 +43,7 @@ export default function LoginPage() {
     <main className={styles.container}>
       <div className={styles.card}>
         <h1 className={styles.title}>MODAM</h1>
+        <p className={styles.subtitle}>소모임 날짜 조율 & 정산 서비스</p>
         <div className={styles.form}>
           <input
             type="email"
