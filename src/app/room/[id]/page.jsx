@@ -13,6 +13,7 @@ export default function RoomPage({ params }) {
   const [members, setMembers] = useState([]); //멤버 목록
   const [currentUser, setCurrentUser] = useState(null); //현재 로그인한 유저
   const [loading, setLoading] = useState(false);
+  const [myColor, setMyColor] = useState("#a5f3fc"); //내 색상
 
   const router = useRouter();
 
@@ -36,6 +37,15 @@ export default function RoomPage({ params }) {
 
     setCurrentUser(user); //유저 정보 저장
 
+    //내 색상 가져오기
+    const { data: userData } = await supabase
+      .from("users")
+      .select("color")
+      .eq("id", user.id)
+      .single();
+
+    if (userData?.color) setMyColor(userData.color);
+
     //방 정보 가져오기
     const { data: roomData } = await supabase
       .from("rooms")
@@ -43,15 +53,32 @@ export default function RoomPage({ params }) {
       .eq("id", id)
       .single();
 
-    //멤버 목록 가져오기 (유저 닉네임도 같이)
+    //멤버 목록 가져오기 (유저 닉네임, 색상도 같이)
     const { data: membersData } = await supabase
       .from("room_members")
-      .select("user_id, users(nickname)")
+      .select("user_id, users(nickname, color)")
       .eq("room_id", id);
 
     setRoom(roomData);
     setMembers(membersData || []);
     setLoading(false);
+  };
+
+  //색상 변경
+  const handleColorChange = async (color) => {
+    setMyColor(color);
+    const supabase = createClient();
+    await supabase.from("users").update({ color }).eq("id", currentUser.id);
+
+    setMembers((prev) =>
+      prev.map((m) =>
+        m.user_id === currentUser.id
+          ? { ...m, users: { ...m.users, color } }
+          : m,
+      ),
+    );
+    //멤버 목록 다시 불러오기 (달력 색상 업데이트)💛💛💛💛💛💛💛💛💛
+    fetchRoom();
   };
 
   //방 나가기
@@ -100,6 +127,37 @@ export default function RoomPage({ params }) {
                 {m.user_id === currentUser?.id && " (나)"}
               </p>
             ))}
+          </div>
+
+          {/* 내 색상 선택 */}
+          <div className={styles.colorPicker}>
+            <p className={styles.memberLabel}>내 색상</p>
+            <div className={styles.colorList}>
+              {[
+                "#a5f3fc",
+                "#bbf7d0",
+                "#fde68a",
+                "#fca5a5",
+                "#c4b5fd",
+                "#fdba74",
+                "#86efac",
+                "#f9a8d4",
+              ].map((color) => {
+                const usedByOther = members.some(
+                  (m) =>
+                    m.user_id !== currentUser?.id && m.users?.color === color,
+                );
+                return (
+                  <button
+                    key={color}
+                    onClick={() => !usedByOther && handleColorChange(color)}
+                    className={`${styles.colorBtn} ${myColor === color ? styles.colorSelected : ""} ${usedByOther ? styles.colorDisabled : ""}`}
+                    style={{ backgroundColor: color }}
+                    disabled={usedByOther}
+                  />
+                );
+              })}
+            </div>
           </div>
 
           {/* 정산 */}

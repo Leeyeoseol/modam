@@ -128,6 +128,42 @@
   color: var(--danger);
 }
 
+.colorPicker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.colorList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.colorBtn {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.colorBtn:hover {
+  transform: scale(1.1);
+}
+
+.colorSelected {
+  border-color: #333333;
+  transform: scale(1.15);
+}
+
+.colorDisabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
 /* 모바일 반응형 */
 @media (max-width: 768px) {
   .layout {
